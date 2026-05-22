@@ -12,6 +12,32 @@ OVERPASS_URL = 'https://overpass-api.de/api/interpreter'
 MAX_DAILY_DISTANCE_KM = 300
 MAX_TRIP_DAYS = 21
 
+FALLBACK_HALTS = [
+    ('Hosur', 'Tamil Nadu', 12.7409, 77.8253, 'Hosur business hotel', 'Adyar Ananda Bhavan Hosur', 'Krishnagiri highway edge, fuel plazas, and clean breakfast stops.'),
+    ('Krishnagiri', 'Tamil Nadu', 12.5186, 78.2137, 'Hotel Tamil Nadu Krishnagiri', 'Saravana Bhavan Krishnagiri', 'Reservoir views, granite hills, and NH44 service roads.'),
+    ('Anantapur', 'Andhra Pradesh', 14.6819, 77.6006, 'Hotel Masineni Grand', 'Blue Moon Highway Restaurant', 'Dryland highway views and reliable fuel plazas.'),
+    ('Kurnool', 'Andhra Pradesh', 15.8281, 78.0373, 'Triguna Clarks Inn', 'Aahar Restaurant Kurnool', 'Tungabhadra belt, Orvakal rock detour, and easy overnight access.'),
+    ('Hyderabad Outer Ring Road', 'Telangana', 17.2403, 78.4294, 'Airport highway hotel', 'Paradise Biryani Shamshabad', 'ORR service plazas, wide roads, and late food options.'),
+    ('Nagpur', 'Maharashtra', 21.1458, 79.0882, 'Centre Point Hotel', 'Haldiram Nagpur', 'Zero Mile marker and central India highway rhythm.'),
+    ('Sagar', 'Madhya Pradesh', 23.8388, 78.7378, 'Hotel Deepali Sagar', 'Arihant Bhojanalaya', 'Lake-side town pause and practical highway rest.'),
+    ('Jhansi', 'Uttar Pradesh', 25.4484, 78.5685, 'Nataraj Sarovar Portico', 'Haveli Restaurant Jhansi', 'Fort views and Bundelkhand highway breaks.'),
+    ('Agra', 'Uttar Pradesh', 27.1767, 78.0081, 'Crystal Sarovar Premiere', 'Pinch of Spice', 'Yamuna Expressway plazas and Taj sunrise option.'),
+    ('Delhi NCR', 'Delhi', 28.6139, 77.2090, 'Bloomrooms Janpath', 'Karim Hotel', 'City recovery night before northern highway drives.'),
+    ('Chandigarh', 'Chandigarh', 30.7333, 76.7794, 'Hotel Mountview', 'Pal Dhaba', 'Sukhna Lake, Rock Garden, and mountain staging.'),
+    ('Mandi', 'Himachal Pradesh', 31.7087, 76.9320, 'Hotel Valley View', 'Mandi Treat', 'Beas river bends and safer hill-road rest.'),
+    ('Kullu', 'Himachal Pradesh', 31.9579, 77.1095, 'Hotel Sandhya Palace', 'Sapna Sweets Kullu', 'Valley road, river views, and final Manali approach.'),
+    ('Salem', 'Tamil Nadu', 11.6643, 78.1460, 'CJ Pallazzio', 'Selvi Mess Salem', 'Yercaud ghat detour and clean highway exits.'),
+    ('Coimbatore', 'Tamil Nadu', 11.0168, 76.9558, 'Zone by The Park Coimbatore', 'Annapoorna Gowrishankar', 'Western Ghats entry roads and coconut belt views.'),
+    ('Kochi', 'Kerala', 9.9312, 76.2673, 'Abad Atrium Kochi', 'Grand Hotel Restaurant', 'Coastal city pause before hill or backwater drives.'),
+    ('Hubballi', 'Karnataka', 15.3647, 75.1240, 'The President Hotel', 'Basaveshwar Khanavali', 'Unkal Lake evening walk and NH48 service plazas.'),
+    ('Kolhapur', 'Maharashtra', 16.7050, 74.2433, 'Sayaji Kolhapur', 'Dehati Kolhapur', 'Mahalaxmi Temple, Rankala Lake, and NH48 food stops.'),
+    ('Pune', 'Maharashtra', 18.5204, 73.8567, 'The Central Park Pune', 'Vaishali FC Road', 'Expressway access, old city food, and hill-road staging.'),
+    ('Nashik', 'Maharashtra', 19.9975, 73.7898, 'Ibis Nashik', 'Sadhana Restaurant', 'Vineyard roads, Panchavati temples, and highway breaks.'),
+    ('Vadodara', 'Gujarat', 22.3072, 73.1812, 'Sayaji Vadodara', 'Mandap Gujarati Thali', 'Laxmi Vilas Palace and expressway access.'),
+    ('Udaipur', 'Rajasthan', 24.5854, 73.7125, 'Jagat Niwas Palace', 'Natraj Dining Hall', 'Lake Pichola and Aravalli curve viewpoints.'),
+    ('Ajmer', 'Rajasthan', 26.4499, 74.6399, 'Hotel LN Courtyard', 'Mango Masala Ajmer', 'Ana Sagar Lake and Pushkar side detour.'),
+]
+
 
 def _get_json(url, timeout=8):
     request = Request(url, headers={'User-Agent': 'RoadNova-Django/1.0'})
@@ -28,20 +54,28 @@ def parse_trip_dates(start_date, end_date):
     return start, days
 
 
-def generated_waypoint(origin, destination, slot, days):
+def generated_waypoint(origin, destination, slot, days, used_names=None):
     progress = slot / days
+    target_lat = origin['lat'] + (destination['lat'] - origin['lat']) * progress
+    target_lon = origin['lon'] + (destination['lon'] - origin['lon']) * progress
+    used_names = used_names or set()
+    available_halts = [halt for halt in FALLBACK_HALTS if halt[0] not in used_names] or FALLBACK_HALTS
+    name, state, lat, lon, hotel, food, scenic = min(
+        available_halts,
+        key=lambda halt: abs(halt[2] - target_lat) + abs(halt[3] - target_lon),
+    )
     return {
-        'slug': f'route-halt-{slot}',
-        'name': f"Route Halt {slot}",
-        'state': 'Road corridor',
-        'lat': origin['lat'] + (destination['lat'] - origin['lat']) * progress,
-        'lon': origin['lon'] + (destination['lon'] - origin['lon']) * progress,
+        'slug': f'fallback-{slot}-{name.lower().replace(" ", "-")}',
+        'name': name,
+        'state': state,
+        'lat': target_lat,
+        'lon': target_lon,
         'hotel_avg': 2600,
         'food_avg': 800,
         'fuel_price': origin['fuel_price'],
-        'scenic': 'Choose a marked service plaza, safe town bypass, lake viewpoint, or highway rest zone near this route segment.',
-        'food': 'Highway dhaba or food court',
-        'hotel': 'Route-side business hotel',
+        'scenic': scenic,
+        'food': food,
+        'hotel': hotel,
         'kind': 'highway',
     }
 
@@ -127,9 +161,15 @@ def build_plan(origin_slug, destination_slug, start_date, end_date, interests, t
     if built is None:
         stop_points = [
             origin_point,
-            *[generated_waypoint(origin_point, destination_point, slot, days) for slot in range(1, days)],
             destination_point,
         ]
+        generated_stops = []
+        used_names = set()
+        for slot in range(1, days):
+            waypoint = generated_waypoint(origin_point, destination_point, slot, days, used_names)
+            used_names.add(waypoint['name'])
+            generated_stops.append(waypoint)
+        stop_points = [origin_point, *generated_stops, destination_point]
         built, unsafe_distance, unsafe_start, unsafe_end = build_legs(stop_points)
 
     if built is None:

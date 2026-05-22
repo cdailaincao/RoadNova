@@ -27,21 +27,26 @@
   <div class="screen-grid planner-grid">
     <form class="trip-form glass-card" id="trip-form">
       {% csrf_token %}
-      <label>Start city
-        <select name="origin" required>
-          {% for city in cities %}<option value="{{ city.slug }}">{{ city.name }}</option>{% endfor %}
-        </select>
-      </label>
-      <label>End city
-        <select name="destination" required>
-          {% for city in cities %}<option value="{{ city.slug }}" {% if city.slug == "goa" %}selected{% endif %}>{{ city.name }}</option>{% endfor %}
-        </select>
-      </label>
-      <div class="field-row">
+      <div class="form-card-head">
+        <i data-lucide="navigation-2"></i>
+        <div>
+          <h3>Route details</h3>
+          <p>Pick cities and dates. RoadNova keeps drives under 300 km per day.</p>
+        </div>
+      </div>
+      <div class="form-grid">
+        <label>Start city
+          <select name="origin" required>
+            {% for city in cities %}<option value="{{ city.slug }}">{{ city.name }}</option>{% endfor %}
+          </select>
+        </label>
+        <label>End city
+          <select name="destination" required>
+            {% for city in cities %}<option value="{{ city.slug }}" {% if city.slug == "goa" %}selected{% endif %}>{{ city.name }}</option>{% endfor %}
+          </select>
+        </label>
         <label>Start date <input type="date" name="start_date" value="2026-06-01" required></label>
         <label>End date <input type="date" name="end_date" value="2026-06-05" required></label>
-      </div>
-      <div class="field-row">
         <label>Travellers <input type="number" name="travelers" value="4" min="1" max="12"></label>
         <label>Car mileage <input type="number" name="mileage" value="14" min="6" max="28" step="0.5"></label>
       </div>
