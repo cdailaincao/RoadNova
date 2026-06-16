@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 
 from .india_data import CITIES, INTERESTS, city_options
 from .models import Stop, Trip
-from .services import build_plan, osm_pois, weather_for_city
+from .services import build_plan, osm_pois, weather_for_city, weather_for_point
 
 
 def home(request):
@@ -57,6 +57,16 @@ def weather(request, city_slug):
         return JsonResponse(weather_for_city(city_slug, request.GET.get('days', 7)))
     except Exception as error:
         return JsonResponse({'city': CITIES.get(city_slug, {}).get('name', city_slug), 'error': str(error)}, status=502)
+
+
+def weather_point(request):
+    try:
+        name = request.GET.get('name') or 'Route stop'
+        lat = float(request.GET.get('lat'))
+        lon = float(request.GET.get('lon'))
+        return JsonResponse(weather_for_point(name, lat, lon, request.GET.get('days', 7)))
+    except Exception as error:
+        return JsonResponse({'city': request.GET.get('name', 'Route stop'), 'error': str(error)}, status=502)
 
 
 def pois(request):

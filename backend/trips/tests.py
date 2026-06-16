@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from .models import Stop, Trip
+from .services import build_plan
 
 
 class TripViewsTests(TestCase):
@@ -74,7 +75,7 @@ class TripViewsTests(TestCase):
                 'origin': 'bangalore',
                 'destination': 'manali',
                 'start_date': '2026-06-01',
-                'end_date': '2026-06-10',
+                'end_date': '2026-06-14',
                 'travelers': 4,
                 'mileage': 14,
                 'interests': ['nature'],
@@ -83,9 +84,28 @@ class TripViewsTests(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         payload = response.json()
-        self.assertEqual(payload['days'], 10)
-        self.assertEqual(len(payload['itinerary']), 10)
+        self.assertEqual(payload['days'], 14)
+        self.assertEqual(len(payload['itinerary']), 14)
         self.assertTrue(all(leg['distance_km'] <= 300 for leg in payload['legs']))
+        self.assertFalse(any('Route Halt' in point['name'] for point in payload['route']))
+
+    def test_long_trip_uses_varied_actual_halt_distances(self):
+        payload = build_plan(
+            'bangalore',
+            'manali',
+            '2026-06-01',
+            '2026-06-14',
+            ['nature'],
+            4,
+            14,
+        )
+        distances = [leg['distance_km'] for leg in payload['legs']]
+        self.assertGreater(len(set(distances)), 3)
+        self.assertFalse(any('Route Halt' in point['name'] for point in payload['route']))
+
+    def test_weather_point_endpoint_accepts_stop_coordinates(self):
+        response = self.client.get(reverse('weather_point'), {'name': 'Jhansi', 'lat': '25.4484', 'lon': '78.5685', 'days': '1'})
+        self.assertIn(response.status_code, {200, 502})
 
     def test_trip_detail_loads(self):
         response = self.client.get(self.trip.get_absolute_url())

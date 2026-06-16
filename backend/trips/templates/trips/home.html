@@ -1,56 +1,327 @@
 {% extends 'trips/base.html' %}
-{% block title %}RoadNova India - Road Trip Planner{% endblock %}
+{% block title %}RoadNova India — Road Trip Planner{% endblock %}
 {% block content %}
 {{ city_json|json_script:"city-data" }}
+
+<!-- ═══ HOME ═══ -->
 <section class="home-screen view-panel is-active" data-panel="home">
-  <div class="home-copy">
-    <p class="eyebrow">India roadtrip studio</p>
-    <h1>RoadNova</h1>
-    <p>Plan Indian road trips with city-to-city itineraries, open maps, live weather, cost estimates, SOS tools, and group expense splits.</p>
+
+  <!-- ── DESTINATION SCENERY BACKGROUND ── -->
+  <div class="scenery-bg" id="scenery-bg">
+    <div class="scenery-slide active" style="background-image:url('https://share.google/HAtVjWGXAQbI5h0hz')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1590080875515-02e7b60e1e34?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1617478755490-e21232a5eeaf?w=1600&q=80')"></div>
+    <div class="scenery-slide" style="background-image:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1600&q=80')"></div>
+    <div class="scenery-overlay"></div>
   </div>
-  <div class="feature-launcher" aria-label="RoadNova features">
-    <button class="feature-tile" data-view="planner" type="button"><i data-lucide="route"></i><span>Trip plan generator</span></button>
-    <button class="feature-tile" data-view="map" type="button"><i data-lucide="map"></i><span>Map</span></button>
-    <button class="feature-tile" data-view="costs" type="button"><i data-lucide="indian-rupee"></i><span>Costs</span></button>
-    <button class="feature-tile" data-view="weather" type="button"><i data-lucide="cloud-sun"></i><span>Weather</span></button>
-    <button class="feature-tile" data-view="sos" type="button"><i data-lucide="siren"></i><span>SOS</span></button>
-    <button class="feature-tile" data-view="split" type="button"><i data-lucide="users-round"></i><span>Group expense split</span></button>
+
+  <!-- ── HERO ── -->
+  <div class="hero">
+    <div class="hero-text">
+      <p class="tagline">India Road Trip Studio</p>
+      <h1>Plan your next<br><em>great drive.</em></h1>
+      <p class="hero-sub">City-to-city itineraries, live weather, cost estimates, group splits, SOS tools — and vehicle rentals all in one place.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary hero-cta" data-view="planner" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M13 5l7 7-7 7"/></svg>
+          Plan a trip
+        </button>
+        <div class="scenery-dest-badge" id="scenery-dest-badge">
+          <span class="scenery-dest-dot"></span>
+          <span id="scenery-dest-name">Rajasthan</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="route-card">
+        <div class="route-line">
+          <div class="route-dot start"></div>
+          <div class="route-track"></div>
+          <div class="route-dot end"></div>
+        </div>
+        <div class="route-info">
+          <div>
+            <span class="route-label">From</span>
+            <strong>Bangalore</strong>
+          </div>
+          <div>
+            <span class="route-label">Distance</span>
+            <strong>580 km</strong>
+          </div>
+          <div>
+            <span class="route-label">To</span>
+            <strong>Goa</strong>
+          </div>
+        </div>
+        <div class="route-tags">
+          <span class="tag">5 Days</span>
+          <span class="tag">4 Travellers</span>
+          <span class="tag">₹18,400 est.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DESTINATION PHOTO CAROUSEL ── -->
+  <div class="dest-carousel-section">
+    <div class="dest-carousel-header">
+      <div>
+        <p class="section-label">Destinations waiting for you</p>
+        <h2 class="dest-carousel-title">Explore India's <em>iconic routes</em></h2>
+      </div>
+      <div class="carousel-nav-btns">
+        <button class="carousel-nav-btn" id="carousel-prev" type="button" aria-label="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="carousel-nav-btn" id="carousel-next" type="button" aria-label="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Scrollable filter tabs -->
+    <div class="carousel-filter-wrap">
+      <div class="carousel-filter-tabs" id="carousel-filter-tabs">
+        <button class="carousel-filter-tab active" data-filter="all" type="button">🗺 All Routes</button>
+        <button class="carousel-filter-tab" data-filter="Beach" type="button">🏖 Beach</button>
+        <button class="carousel-filter-tab" data-filter="Heritage" type="button">🏰 Heritage</button>
+        <button class="carousel-filter-tab" data-filter="Nature" type="button">🌿 Nature</button>
+        <button class="carousel-filter-tab" data-filter="Adventure" type="button">⛰ Adventure</button>
+        <button class="carousel-filter-tab" data-filter="Hills" type="button">🌄 Hills</button>
+        <button class="carousel-filter-tab" data-filter="Offbeat" type="button">🧭 Offbeat</button>
+        <button class="carousel-filter-tab" data-filter="Coastal" type="button">🌊 Coastal</button>
+        <button class="carousel-filter-tab" data-filter="Mountains" type="button">🏔 Mountains</button>
+      </div>
+    </div>
+
+    <div class="dest-carousel-track-wrap">
+      <div class="dest-carousel-track" id="dest-carousel-track">
+
+        <div class="dest-card" data-dest="Goa">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1559628376-f3fe5f782a2e?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Beach</div>
+            <h3>Goa</h3>
+            <p>Sun-soaked beaches, shacks, and sunsets. The ultimate Indian road trip destination.</p>
+            <div class="dest-card-meta">
+              <span>580 km from Bengaluru</span>
+              <button class="btn-dest-plan" data-origin="bangalore" data-dest="goa" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Rajasthan">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Heritage</div>
+            <h3>Rajasthan</h3>
+            <p>Forts, palaces, and the golden Thar desert. History alive on every road.</p>
+            <div class="dest-card-meta">
+              <span>320 km from Jaipur</span>
+              <button class="btn-dest-plan" data-origin="jaipur" data-dest="jaisalmer" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Kerala">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Nature</div>
+            <h3>Kerala Backwaters</h3>
+            <p>Lush green roads winding through spice estates, tea hills, and serene backwaters.</p>
+            <div class="dest-card-meta">
+              <span>220 km from Kochi</span>
+              <button class="btn-dest-plan" data-origin="kochi" data-dest="munnar" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Ladakh">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1587474260584-136574528ed5?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Adventure</div>
+            <h3>Ladakh</h3>
+            <p>High-altitude passes, barren moonscapes, and the world's most dramatic roads.</p>
+            <div class="dest-card-meta">
+              <span>473 km from Manali</span>
+              <button class="btn-dest-plan" data-origin="manali" data-dest="leh" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Coorg">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Hills</div>
+            <h3>Coorg</h3>
+            <p>Scotland of India — misty peaks, coffee estates and winding mountain roads.</p>
+            <div class="dest-card-meta">
+              <span>265 km from Bangalore</span>
+              <button class="btn-dest-plan" data-origin="bangalore" data-dest="coorg" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Spiti">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Offbeat</div>
+            <h3>Spiti Valley</h3>
+            <p>Remote Himalayan valley, ancient monasteries, and roads built for the brave.</p>
+            <div class="dest-card-meta">
+              <span>200 km from Manali</span>
+              <button class="btn-dest-plan" data-origin="manali" data-dest="kaza" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Pondicherry">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1590080875515-02e7b60e1e34?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Coastal</div>
+            <h3>Pondicherry</h3>
+            <p>French Colonial streets, quiet beaches, and the East Coast Road at its finest.</p>
+            <div class="dest-card-meta">
+              <span>160 km from Chennai</span>
+              <button class="btn-dest-plan" data-origin="chennai" data-dest="pondicherry" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dest-card" data-dest="Manali">
+          <div class="dest-card-img" style="background-image:url('https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&q=80')"></div>
+          <div class="dest-card-body">
+            <div class="dest-card-tag">Mountains</div>
+            <h3>Manali</h3>
+            <p>Snow-capped peaks, the Rohtang Pass, and valleys bursting with wildflowers.</p>
+            <div class="dest-card-meta">
+              <span>500 km from Delhi</span>
+              <button class="btn-dest-plan" data-origin="delhi" data-dest="manali" type="button">Plan route →</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="carousel-dots" id="carousel-dots"></div>
+  </div>
+
+  <!-- ── FEATURES ── -->
+  <div class="features-section">
+    <p class="section-label">Everything for your journey</p>
+    <div class="feature-grid">
+      <button class="feature-card" data-view="planner" type="button">
+        <div class="feature-icon"><i data-lucide="route"></i></div>
+        <div class="feature-body">
+          <h3>Trip Planner</h3>
+          <p>AI-built itineraries with daily drives under 300 km, stays, food, and local stops.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+      <button class="feature-card" data-view="rentals" type="button">
+        <div class="feature-icon rentals-icon"><i data-lucide="car"></i></div>
+        <div class="feature-body">
+          <h3>Rent a Vehicle</h3>
+          <p>Bikes from Royal Brothers, Bikemania and cars from Zoomcar, Drivezy — compare and book.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+      <button class="feature-card" data-view="map" type="button">
+        <div class="feature-icon map-icon"><i data-lucide="map"></i></div>
+        <div class="feature-body">
+          <h3>Live Map</h3>
+          <p>OpenStreetMap routing with hotels, restaurants, temples, and beaches near you.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+      <button class="feature-card" data-view="weather" type="button">
+        <div class="feature-icon weather-icon"><i data-lucide="cloud-sun"></i></div>
+        <div class="feature-body">
+          <h3>Weather</h3>
+          <p>Live forecast for every city on your route, updated daily.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+      <button class="feature-card" data-view="costs" type="button">
+        <div class="feature-icon cost-icon"><i data-lucide="indian-rupee"></i></div>
+        <div class="feature-body">
+          <h3>Budget</h3>
+          <p>Fuel, tolls, hotels, and food — itemised for your exact trip.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+      <button class="feature-card" data-view="split" type="button">
+        <div class="feature-icon split-icon"><i data-lucide="users-round"></i></div>
+        <div class="feature-body">
+          <h3>Group Split</h3>
+          <p>Add shared expenses. See who owes what at the end.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+      <button class="feature-card sos-card-home" data-view="sos" type="button">
+        <div class="feature-icon sos-icon"><i data-lucide="siren"></i></div>
+        <div class="feature-body">
+          <h3>SOS & Emergency</h3>
+          <p>One-tap emergency calls and all India emergency numbers in one place.</p>
+        </div>
+        <div class="feature-arrow"><i data-lucide="arrow-right"></i></div>
+      </button>
+    </div>
   </div>
 </section>
 
+<!-- ═══ PLANNER ═══ -->
 <section class="feature-screen view-panel" data-panel="planner">
-  <div class="screen-heading">
-    <button class="back-button" data-view="home" type="button"><i data-lucide="arrow-left"></i>Home</button>
-    <p class="eyebrow">Planner</p>
-    <h2>Generate a detailed India itinerary</h2>
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
   </div>
-  <div class="screen-grid planner-grid">
-    <form class="trip-form glass-card" id="trip-form">
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div>
+      <p class="tagline">Route Studio</p>
+      <h2>Build your itinerary</h2>
+    </div>
+  </div>
+  <div class="two-col planner-layout">
+    <form class="card trip-form" id="trip-form">
       {% csrf_token %}
-      <div class="form-card-head">
-        <i data-lucide="navigation-2"></i>
+      <div class="form-header">
+        <div class="form-header-icon"><i data-lucide="navigation-2"></i></div>
         <div>
           <h3>Route details</h3>
-          <p>Pick cities and dates. RoadNova keeps drives under 300 km per day.</p>
+          <p>Drives are kept under 300 km per day for comfortable travel.</p>
         </div>
       </div>
-      <div class="form-grid">
-        <label>Start city
+      <div class="form-row">
+        <label class="field-label">Start city
           <select name="origin" required>
             {% for city in cities %}<option value="{{ city.slug }}">{{ city.name }}</option>{% endfor %}
           </select>
         </label>
-        <label>End city
+        <label class="field-label">End city
           <select name="destination" required>
             {% for city in cities %}<option value="{{ city.slug }}" {% if city.slug == "goa" %}selected{% endif %}>{{ city.name }}</option>{% endfor %}
           </select>
         </label>
-        <label>Start date <input type="date" name="start_date" value="2026-06-01" required></label>
-        <label>End date <input type="date" name="end_date" value="2026-06-05" required></label>
-        <label>Travellers <input type="number" name="travelers" value="4" min="1" max="12"></label>
-        <label>Car mileage <input type="number" name="mileage" value="14" min="6" max="28" step="0.5"></label>
       </div>
-      <fieldset>
+      <div class="form-row">
+        <label class="field-label">Start date <input type="date" name="start_date" value="2026-06-01" required></label>
+        <label class="field-label">End date <input type="date" name="end_date" value="2026-06-05" required></label>
+      </div>
+      <div class="form-row">
+        <label class="field-label">Travellers <input type="number" name="travelers" value="4" min="1" max="12"></label>
+        <label class="field-label">Car mileage (km/L) <input type="number" name="mileage" value="14" min="6" max="28" step="0.5"></label>
+      </div>
+      <fieldset class="interests-fieldset">
         <legend>Trip interests</legend>
         <div class="chip-grid">
           {% for value, label in interests.items %}
@@ -58,28 +329,41 @@
           {% endfor %}
         </div>
       </fieldset>
-      <button class="button primary" type="submit"><i data-lucide="sparkles"></i>Build itinerary</button>
+      <button class="btn btn-primary full-width" type="submit">
+        <i data-lucide="sparkles"></i> Generate itinerary
+      </button>
     </form>
-    <article class="glass-card itinerary-card">
-      <div class="card-title"><i data-lucide="calendar-days"></i><h2>Detailed itinerary</h2></div>
-      <div id="itinerary-list" class="itinerary-list empty-state">Choose cities and generate a plan.</div>
+
+    <article class="card itinerary-card">
+      <div class="card-head"><i data-lucide="calendar-days"></i><h3>Detailed itinerary</h3></div>
+      <div id="itinerary-list" class="itinerary-list empty-msg">Choose cities above and generate a plan.</div>
     </article>
   </div>
 </section>
 
+<!-- ═══ MAP ═══ -->
 <section class="feature-screen view-panel" data-panel="map">
-  <div class="screen-heading">
-    <button class="back-button" data-view="home" type="button"><i data-lucide="arrow-left"></i>Home</button>
-    <p class="eyebrow">Open map</p>
-    <h2 id="route-summary">Bangalore to Goa</h2>
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
   </div>
-  <div class="screen-grid map-grid">
-    <div class="map-panel" id="map-section">
-      <div id="map" aria-label="OpenStreetMap route map"></div>
-      <div class="map-overlay"><span><i data-lucide="map"></i> OpenStreetMap</span><span>Live route view</span></div>
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div class="map-heading-row">
+      <h2 id="route-summary">Bangalore → Goa</h2>
+      <a class="btn-open-gmaps" id="open-gmaps-btn" href="https://www.google.com/maps/dir/Bangalore/Goa" target="_blank" rel="noopener" aria-label="Open in Google Maps">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Open in Google Maps
+        <svg class="gmaps-ext" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+      </a>
     </div>
-    <article class="glass-card poi-card">
-      <div class="card-title"><i data-lucide="landmark"></i><h2>Live OSM options</h2></div>
+  </div>
+  <div class="two-col map-layout">
+    <div class="map-wrap">
+      <div id="map" aria-label="OpenStreetMap route map"></div>
+      <div class="map-badge"><i data-lucide="map-pin"></i> OpenStreetMap · Live route</div>
+    </div>
+    <article class="card poi-card">
+      <div class="card-head"><i data-lucide="landmark"></i><h3>Points of interest</h3></div>
       <div class="poi-controls">
         <select id="poi-city">
           {% for city in cities %}<option value="{{ city.slug }}">{{ city.name }}</option>{% endfor %}
@@ -90,73 +374,230 @@
           <option value="temples">Temples</option>
           <option value="beaches">Beaches</option>
         </select>
-        <button class="button ghost" id="load-pois" type="button"><i data-lucide="search"></i>Find</button>
+        <button class="btn btn-outline" id="load-pois" type="button"><i data-lucide="search"></i> Search</button>
       </div>
-      <div id="poi-results" class="poi-results">OpenStreetMap results will appear here.</div>
+      <div id="poi-results" class="poi-results empty-msg">OpenStreetMap results appear here.</div>
     </article>
   </div>
 </section>
 
-<section class="feature-screen view-panel" data-panel="costs">
-  <div class="screen-heading">
-    <button class="back-button" data-view="home" type="button"><i data-lucide="arrow-left"></i>Home</button>
-    <p class="eyebrow">Budget</p>
-    <h2>Fuel, tolls, stays, food, and total split</h2>
+<!-- ═══ RENTALS ═══ -->
+<section class="feature-screen view-panel" data-panel="rentals">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1617478755490-e21232a5eeaf?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
   </div>
-  <article class="glass-card costs-card">
-    <div class="card-title"><i data-lucide="indian-rupee"></i><h2>Trip costs</h2></div>
-    <div class="metric-grid" id="costs"><div class="empty-state">Generate a trip plan to calculate costs.</div></div>
-  </article>
-</section>
-
-<section class="feature-screen view-panel" data-panel="weather">
-  <div class="screen-heading">
-    <button class="back-button" data-view="home" type="button"><i data-lucide="arrow-left"></i>Home</button>
-    <p class="eyebrow">Live forecast</p>
-    <h2>Weather for your route cities</h2>
-  </div>
-  <article class="glass-card weather-card">
-    <div class="card-title"><i data-lucide="cloud-sun"></i><h2>Weather</h2></div>
-    <div id="weather-list" class="weather-list">Generate a trip plan to load live forecast.</div>
-  </article>
-</section>
-
-<section class="feature-screen view-panel" data-panel="sos">
-  <div class="screen-heading">
-    <button class="back-button" data-view="home" type="button"><i data-lucide="arrow-left"></i>Home</button>
-    <p class="eyebrow">Emergency</p>
-    <h2>SOS calling and India emergency numbers</h2>
-  </div>
-  <article class="glass-card sos-card">
-    <div class="card-title"><i data-lucide="siren"></i><h2>SOS</h2></div>
-    <label>Emergency contact <input id="emergency-contact" type="tel" placeholder="+91 98765 43210"></label>
-    <div class="sos-actions">
-      <a class="button danger" id="sos-call" href="tel:112"><i data-lucide="phone-call"></i>Call SOS</a>
-      <a class="button ghost" href="sms:?body=I need help. My current RoadNova route is active."><i data-lucide="message-circle"></i>Send SMS</a>
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div>
+      <p class="tagline">Vehicle Rentals</p>
+      <h2>Bikes & cars for your route</h2>
     </div>
-    <div class="emergency-list">
+  </div>
+
+  <div class="rental-section">
+    <div class="rental-tabs">
+      <button class="rental-tab active" data-tab="bikes" type="button">🏍 Bikes</button>
+      <button class="rental-tab" data-tab="cars" type="button">🚗 Cars</button>
+    </div>
+
+    <div class="rental-panel" id="tab-bikes">
+      <p class="rental-note">Compare prices and book directly on the rental platform. All links open the official booking page.</p>
+      <div class="rental-city-row">
+        <label class="field-label" style="max-width:280px">Your pickup city
+          <select id="rental-city-bikes">
+            {% for city in cities %}<option value="{{ city.name }}">{{ city.name }}</option>{% endfor %}
+          </select>
+        </label>
+        <div class="rental-date-row">
+          <label class="field-label">From <input type="date" id="rental-start" value="2026-06-01"></label>
+          <label class="field-label">To <input type="date" id="rental-end" value="2026-06-05"></label>
+        </div>
+      </div>
+      <div class="provider-grid">
+        <div class="provider-card">
+          <div class="provider-logo rb-logo">RB</div>
+          <div class="provider-info">
+            <h4>Royal Brothers</h4>
+            <p>India's largest self-drive bike rental with 100+ cities. Royal Enfield, Yamaha, KTM and more.</p>
+            <div class="provider-meta"><span class="badge">Self-drive</span><span class="badge">Helmet included</span><span class="badge">Insurance</span></div>
+            <div class="price-from">From <strong>₹500/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" id="rb-link" href="https://www.royalbrothers.com" target="_blank" rel="noopener">Book on Royal Brothers →</a>
+        </div>
+        <div class="provider-card">
+          <div class="provider-logo bm-logo">BM</div>
+          <div class="provider-info">
+            <h4>Bikemania</h4>
+            <p>Premium bike rentals across major Indian cities with doorstep delivery.</p>
+            <div class="provider-meta"><span class="badge">Doorstep delivery</span><span class="badge">24/7 support</span></div>
+            <div class="price-from">From <strong>₹450/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.bikemania.in" target="_blank" rel="noopener">Book on Bikemania →</a>
+        </div>
+        <div class="provider-card">
+          <div class="provider-logo wc-logo">WC</div>
+          <div class="provider-info">
+            <h4>Wheelstreet</h4>
+            <p>Self-drive bike rentals across Goa, Manali, Coorg and popular road trip destinations.</p>
+            <div class="provider-meta"><span class="badge">Hourly plans</span><span class="badge">GPS tracking</span></div>
+            <div class="price-from">From <strong>₹350/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.wheelstreet.com" target="_blank" rel="noopener">Book on Wheelstreet →</a>
+        </div>
+        <div class="provider-card">
+          <div class="provider-logo re-logo">RE</div>
+          <div class="provider-info">
+            <h4>Rentrip Bikes</h4>
+            <p>Aggregator to compare Royal Enfield, Honda, Hero and scooter rentals from verified vendors.</p>
+            <div class="provider-meta"><span class="badge">Compare prices</span><span class="badge">Verified vendors</span></div>
+            <div class="price-from">From <strong>₹300/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.rentrip.in/self-drive-bike-rentals" target="_blank" rel="noopener">Compare on Rentrip →</a>
+        </div>
+      </div>
+      <div class="rental-tip">
+        <i data-lucide="info"></i>
+        <div><strong>Road trip tip:</strong> For trips over 500 km, choose a platform that allows inter-city drop-offs. Royal Brothers and Bikemania both support multi-city plans.</div>
+      </div>
+    </div>
+
+    <div class="rental-panel hidden" id="tab-cars">
+      <p class="rental-note">Self-drive car rentals for road trips across India. Book directly on the platform for best prices.</p>
+      <div class="rental-city-row">
+        <label class="field-label" style="max-width:280px">Your pickup city
+          <select id="rental-city-cars">
+            {% for city in cities %}<option value="{{ city.name }}">{{ city.name }}</option>{% endfor %}
+          </select>
+        </label>
+        <div class="rental-date-row">
+          <label class="field-label">From <input type="date" id="car-rental-start" value="2026-06-01"></label>
+          <label class="field-label">To <input type="date" id="car-rental-end" value="2026-06-05"></label>
+        </div>
+      </div>
+      <div class="provider-grid">
+        <div class="provider-card">
+          <div class="provider-logo zc-logo">ZC</div>
+          <div class="provider-info">
+            <h4>Zoomcar</h4>
+            <p>India's #1 self-drive car rental. 10,000+ cars across 50+ cities — hatchbacks to SUVs.</p>
+            <div class="provider-meta"><span class="badge">50+ cities</span><span class="badge">Comprehensive insurance</span><span class="badge">App-based</span></div>
+            <div class="price-from">From <strong>₹1,200/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.zoomcar.com" target="_blank" rel="noopener">Book on Zoomcar →</a>
+        </div>
+        <div class="provider-card">
+          <div class="provider-logo rz-logo">RT</div>
+          <div class="provider-info">
+            <h4>Revv</h4>
+            <p>Self-drive car subscription and rental with doorstep delivery across major metros.</p>
+            <div class="provider-meta"><span class="badge">Doorstep delivery</span><span class="badge">No fuel deposits</span></div>
+            <div class="price-from">From <strong>₹999/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.revv.co.in" target="_blank" rel="noopener">Book on Revv →</a>
+        </div>
+        <div class="provider-card">
+          <div class="provider-logo my-logo">MY</div>
+          <div class="provider-info">
+            <h4>MyChoize</h4>
+            <p>Budget-friendly self-drive rentals — popular in South India cities.</p>
+            <div class="provider-meta"><span class="badge">Transparent pricing</span><span class="badge">24/7 roadside help</span></div>
+            <div class="price-from">From <strong>₹899/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.mychoize.com" target="_blank" rel="noopener">Book on MyChoize →</a>
+        </div>
+        <div class="provider-card">
+          <div class="provider-logo dr-logo">DZ</div>
+          <div class="provider-info">
+            <h4>Drivezy</h4>
+            <p>Peer-to-peer car and bike marketplace with competitive rates and flexible pickup options.</p>
+            <div class="provider-meta"><span class="badge">P2P marketplace</span><span class="badge">Flexible pickup</span></div>
+            <div class="price-from">From <strong>₹800/day</strong></div>
+          </div>
+          <a class="btn btn-primary provider-btn" href="https://www.drivezy.com" target="_blank" rel="noopener">Book on Drivezy →</a>
+        </div>
+      </div>
+      <div class="rental-tip">
+        <i data-lucide="info"></i>
+        <div><strong>Car rental tip:</strong> For Goa, Manali, or Ladakh road trips, opt for an SUV or 4WD. Always check unlimited km packages for long routes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COSTS ═══ -->
+<section class="feature-screen view-panel" data-panel="costs">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
+  </div>
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div><p class="tagline">Budget Breakdown</p><h2>Fuel, tolls, stays &amp; food</h2></div>
+  </div>
+  <article class="card costs-card">
+    <div class="card-head"><i data-lucide="indian-rupee"></i><h3>Trip costs</h3></div>
+    <div class="metric-grid" id="costs"><div class="empty-msg">Generate a trip plan to calculate costs.</div></div>
+  </article>
+</section>
+
+<!-- ═══ WEATHER ═══ -->
+<section class="feature-screen view-panel" data-panel="weather">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
+  </div>
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div><p class="tagline">Live Forecast</p><h2>Weather along your route</h2></div>
+  </div>
+  <article class="card weather-card">
+    <div class="card-head"><i data-lucide="cloud-sun"></i><h3>Weather forecast</h3></div>
+    <div id="weather-list" class="weather-grid empty-msg">Generate a trip plan to load live forecast.</div>
+  </article>
+</section>
+
+<!-- ═══ SOS ═══ -->
+<section class="feature-screen view-panel" data-panel="sos">
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1548013146-72479768bada?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
+  </div>
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div><p class="tagline">Emergency</p><h2>SOS &amp; Emergency contacts</h2></div>
+  </div>
+  <article class="card sos-card">
+    <div class="card-head"><i data-lucide="siren"></i><h3>Emergency SOS</h3></div>
+    <div class="sos-contact">
+      <label class="field-label">Your emergency contact <input id="emergency-contact" type="tel" placeholder="+91 98765 43210"></label>
+      <div class="sos-btns">
+        <a class="btn btn-danger" id="sos-call" href="tel:112"><i data-lucide="phone-call"></i> Call 112</a>
+        <a class="btn btn-outline" href="sms:?body=I need help. My current RoadNova route is active."><i data-lucide="message-circle"></i> Send SMS</a>
+      </div>
+    </div>
+    <div class="emergency-grid">
       {% for label, number in emergency_numbers.items %}
-      <a href="tel:{{ number }}"><strong>{{ number }}</strong><span>{{ label }}</span></a>
+      <a class="emergency-tile" href="tel:{{ number }}"><strong>{{ number }}</strong><span>{{ label }}</span></a>
       {% endfor %}
     </div>
   </article>
 </section>
 
+<!-- ═══ SPLIT ═══ -->
 <section class="feature-screen view-panel" data-panel="split">
-  <div class="screen-heading">
-    <button class="back-button" data-view="home" type="button"><i data-lucide="arrow-left"></i>Home</button>
-    <p class="eyebrow">Shared expenses</p>
-    <h2>Group expense split</h2>
+  <div class="page-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1590080875515-02e7b60e1e34?w=1600&q=80')">
+    <div class="page-hero-overlay"></div>
   </div>
-  <article class="glass-card split-card">
-    <div class="card-title"><i data-lucide="users-round"></i><h2>Group split</h2></div>
-    <div id="split-output" class="empty-state">Generate a trip plan to see per-person split.</div>
-    <div class="expense-tools">
-      <input id="expense-name" placeholder="Expense label">
-      <input id="expense-amount" type="number" placeholder="Amount">
-      <button class="button ghost" id="add-expense" type="button"><i data-lucide="plus"></i>Add</button>
+  <div class="screen-heading page-heading-over-bg">
+    <button class="back-btn" data-view="home" type="button"><i data-lucide="arrow-left"></i> Back</button>
+    <div><p class="tagline">Shared Expenses</p><h2>Group expense split</h2></div>
+  </div>
+  <article class="card split-card">
+    <div class="card-head"><i data-lucide="users-round"></i><h3>Group split</h3></div>
+    <div id="split-output" class="split-metrics empty-msg">Generate a trip plan to see per-person split.</div>
+    <div class="expense-add">
+      <input id="expense-name" placeholder="Expense label (e.g. snacks)">
+      <input id="expense-amount" type="number" placeholder="Amount (₹)">
+      <button class="btn btn-outline" id="add-expense" type="button"><i data-lucide="plus"></i> Add</button>
     </div>
-    <ul id="expense-list"></ul>
+    <ul id="expense-list" class="expense-list"></ul>
   </article>
 </section>
 {% endblock %}
